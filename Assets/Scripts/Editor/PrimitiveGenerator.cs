@@ -29,39 +29,55 @@ public class PrimitiveGenerator : EditorWindow {
 
         List<Vector3> verts = new List<Vector3>();
         List<int> tris = new List<int>();
+        List<Vector2> uvs = new List<Vector2>();
 
-        // make 4 sided one and 3 sided
-
-        Vector3 a = new Vector3(0.0f, 0.0f, 1.0f);
-
-        Vector3 b = new Vector3(1.0f, 1.0f, -1.0f);
-        Vector3 c = new Vector3(1.0f, -1.0f, -1.0f);
-        Vector3 d = new Vector3(-1.0f, -1.0f, -1.0f);
-        Vector3 e = new Vector3(-1.0f, 1.0f, -1.0f);
-
-        verts.Add(a);
-        verts.Add(b);
-        verts.Add(e);
-
-        verts.Add(a);
-        verts.Add(c);
-        verts.Add(b);
-
-        verts.Add(a);
-        verts.Add(d);
-        verts.Add(c);
+        Vector3 a = new Vector3(0.0f, 1.0f, 0.0f);      // top
+        Vector3 b = new Vector3(1.0f, 0.0f, 1.0f);      // fr
+        Vector3 c = new Vector3(1.0f, 0.0f, -1.0f);     // br
+        Vector3 d = new Vector3(-1.0f, 0.0f, -1.0f);    // bl
+        Vector3 e = new Vector3(-1.0f, 0.0f, 1.0f);     // fl
 
         verts.Add(a);
         verts.Add(e);
-        verts.Add(d);
+        verts.Add(b);
+        uvs.Add(new Vector2(0.5f, 1.0f));
+        uvs.Add(new Vector2(0.0f, 0.0f));
+        uvs.Add(new Vector2(1.0f, 0.0f));
 
+        verts.Add(a);
         verts.Add(b);
         verts.Add(c);
-        verts.Add(d);
+        uvs.Add(new Vector2(0.5f, 1.0f));
+        uvs.Add(new Vector2(0.0f, 0.0f));
+        uvs.Add(new Vector2(1.0f, 0.0f));
 
+        verts.Add(a);
+        verts.Add(c);
+        verts.Add(d);
+        uvs.Add(new Vector2(0.5f, 1.0f));
+        uvs.Add(new Vector2(0.0f, 0.0f));
+        uvs.Add(new Vector2(1.0f, 0.0f));
+
+        verts.Add(a);
         verts.Add(d);
         verts.Add(e);
+        uvs.Add(new Vector2(0.5f, 1.0f));
+        uvs.Add(new Vector2(0.0f, 0.0f));
+        uvs.Add(new Vector2(1.0f, 0.0f));
+
+        verts.Add(d);
+        verts.Add(c);
         verts.Add(b);
+        uvs.Add(new Vector2(0.0f, 1.0f));
+        uvs.Add(new Vector2(1.0f, 1.0f));
+        uvs.Add(new Vector2(1.0f, 0.0f));
+
+        verts.Add(b);
+        verts.Add(e);
+        verts.Add(d);
+        uvs.Add(new Vector2(1.0f, 0.0f));
+        uvs.Add(new Vector2(0.0f, 0.0f));
+        uvs.Add(new Vector2(0.0f, 1.0f));
 
         for (int i = 0; i < 18; i++) {
             tris.Add(i);
@@ -70,10 +86,13 @@ public class PrimitiveGenerator : EditorWindow {
         Mesh m = new Mesh();
         m.vertices = verts.ToArray();
         m.triangles = tris.ToArray();
+        m.uv = uvs.ToArray();
         m.RecalculateNormals();
         m.RecalculateBounds();
 
         go.AddComponent<MeshFilter>().mesh = m;
+
+        AssetDatabase.CreateAsset(m, "Assets/Models/square_pyramid.asset");
     }
 
     private void triangularPyramid() {
